@@ -1,0 +1,36 @@
+version: '3.7'
+
+services:
+  moodle:
+    image: bitnami/moodle:latest
+    environment:
+      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_DATABASE_USER=moodle
+      - MOODLE_DATABASE_NAME=moodle
+      - MOODLE_DATABASE_PASSWORD=moodle_password
+      - MOODLE_USERNAME=admin
+      - MOODLE_PASSWORD=admin_password
+      - MOODLE_EMAIL=admin@example.com
+      - PHP_UPLOAD_MAX_FILESIZE=1024M   # Tamaño máximo de archivo (ajusta según tus necesidades)
+      - PHP_POST_MAX_SIZE=1024M          # Tamaño máximo de post (ajusta según tus necesidades)
+    ports:
+      - "8080:8080"
+    volumes:
+      - moodle_data:/bitnami/moodle
+
+  mariadb:
+    image: bitnami/mariadb:latest
+    environment:
+      - MARIADB_ROOT_PASSWORD=root_password
+      - MARIADB_DATABASE=moodle
+      - MARIADB_USER=moodle
+      - MARIADB_PASSWORD=moodle_password
+    volumes:
+      - mariadb_data:/bitnami/mariadb
+
+volumes:
+  moodle_data:
+    driver: local
+  mariadb_data:
+    driver: local
