@@ -1,104 +1,125 @@
+# Docker Ejemplos - Comandos Generales
 
-# Docker Moodle Setup
+Este repositorio contiene varios ejemplos de configuraciones y aplicaciones Docker. A continuación, se muestran algunos comandos generales útiles para gestionar contenedores, imágenes y redes en Docker.
 
-Este repositorio contiene una configuración básica de Docker para ejecutar Moodle con MariaDB como base de datos. Utiliza `docker-compose` para crear y gestionar los contenedores de forma rápida y sencilla.
+## Comandos Básicos de Docker
 
-## Requisitos
+### 1. Listar Contenedores
 
-- Docker
-- Docker Compose
+- Para listar los contenedores activos:
+  ```bash
+  docker ps
+  ```
+- Para listar todos los contenedores, incluyendo los detenidos:
+  ```bash
+  docker ps -a
+  ```
 
-## Contenido del repositorio
+### 2. Iniciar y Detener Contenedores
 
-- `docker-compose.yml`: Archivo de configuración de Docker Compose para desplegar Moodle y MariaDB.
+- Iniciar un contenedor específico:
+  ```bash
+  docker start <nombre_del_contenedor>
+  ```
+- Detener un contenedor específico:
+  ```bash
+  docker stop <nombre_del_contenedor>
+  ```
 
-## Comandos Básicos
+### 3. Eliminar Contenedores
 
-### 1. Levantar el entorno
+- Eliminar un contenedor específico:
+  ```bash
+  docker rm <nombre_del_contenedor>
+  ```
+- Eliminar todos los contenedores detenidos:
+  ```bash
+  docker container prune
+  ```
 
-Para iniciar el entorno de Moodle y MariaDB, ejecuta el siguiente comando en el directorio del repositorio:
+### 4. Gestionar Imágenes
 
-```bash
-docker-compose up -d
-```
+- Listar todas las imágenes locales:
+  ```bash
+  docker images
+  ```
+- Eliminar una imagen específica:
+  ```bash
+  docker rmi <id_de_la_imagen>
+  ```
+- Eliminar todas las imágenes no usadas:
+  ```bash
+  docker image prune
+  ```
 
-Este comando levantará los contenedores en segundo plano (`-d` para "detached mode").
+### 5. Construir una Imagen
 
-### 2. Verificar el estado de los contenedores
+- Construir una imagen a partir de un Dockerfile en el directorio actual:
+  ```bash
+  docker build -t nombre_imagen .
+  ```
 
-Para ver el estado de los contenedores en ejecución:
+### 6. Ejecutar un Contenedor
 
-```bash
-docker ps
-```
+- Crear y ejecutar un contenedor a partir de una imagen:
+  ```bash
+  docker run -d --name nombre_contenedor nombre_imagen
+  ```
 
-Este comando muestra los contenedores activos y sus puertos mapeados.
+  - `-d`: Ejecuta el contenedor en modo "detached" (en segundo plano).
+  - `--name`: Asigna un nombre específico al contenedor.
 
-### 3. Acceder a los logs de un contenedor
+### 7. Acceder a un Contenedor en Ejecución
 
-Para ver los logs de un contenedor específico, como el de Moodle o MariaDB:
+- Acceder a un contenedor en modo interactivo:
+  ```bash
+  docker exec -it nombre_contenedor bash
+  ```
 
-```bash
-docker-compose logs moodle
-docker-compose logs mariadb
-```
+### 8. Comandos para Docker Compose
 
-También puedes ver los logs en tiempo real usando la opción `-f`:
+- Levantar los servicios definidos en `docker-compose.yml` en segundo plano:
+  ```bash
+  docker-compose up -d
+  ```
+- Detener los servicios de `docker-compose`:
+  ```bash
+  docker-compose down
+  ```
+- Ver los logs de un servicio en tiempo real:
+  ```bash
+  docker-compose logs -f <nombre_servicio>
+  ```
 
-```bash
-docker-compose logs -f moodle
-```
+### 9. Redes en Docker
 
-### 4. Detener el entorno
+- Listar todas las redes:
+  ```bash
+  docker network ls
+  ```
+- Crear una red personalizada:
+  ```bash
+  docker network create nombre_red
+  ```
+- Conectar un contenedor a una red:
+  ```bash
+  docker network connect nombre_red nombre_contenedor
+  ```
 
-Para detener los contenedores sin eliminar los datos:
+## Otros Comandos Útiles
 
-```bash
-docker-compose down
-```
-
-Este comando detiene y elimina los contenedores, pero preserva los volúmenes (datos).
-
-### 5. Reiniciar el entorno
-
-Para reiniciar los contenedores (útil después de hacer cambios en `docker-compose.yml`):
-
-```bash
-docker-compose down
-docker-compose up -d
-```
-
-### 6. Ejecutar comandos dentro de un contenedor
-
-Si necesitas ejecutar comandos dentro del contenedor de Moodle o MariaDB, usa el siguiente comando:
-
-```bash
-docker exec -it <nombre_del_contenedor> bash
-```
-
-Ejemplo para acceder al contenedor de Moodle:
-
-```bash
-docker exec -it moodle_moodle_1 bash
-```
-
-### 7. Eliminar todos los volúmenes y contenedores
-
-Si deseas eliminar completamente los datos y empezar desde cero:
-
-```bash
-docker-compose down -v
-```
-
-> **Nota:** Esto eliminará todos los volúmenes de datos, incluidas las bases de datos.
-
-## Acceso a Moodle
-
-Una vez que los contenedores estén en ejecución, podrás acceder a Moodle en [http://localhost:8080](http://localhost:8080).
-
-## Personalización
-
-Puedes ajustar el archivo `docker-compose.yml` para cambiar las configuraciones de Moodle y MariaDB según tus necesidades. Asegúrate de reiniciar los contenedores después de realizar cualquier cambio en este archivo.
+- Ver el uso de espacio en disco por Docker:
+  ```bash
+  docker system df
+  ```
+- Limpiar todos los contenedores, imágenes y redes no utilizados:
+  ```bash
+  docker system prune -a
+  ```
+- Inspeccionar los detalles de un contenedor o imagen:
+  ```bash
+  docker inspect <nombre_contenedor_o_imagen>
+  ```
 
 ## Contribuciones
 
