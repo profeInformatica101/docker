@@ -121,6 +121,24 @@ Este repositorio contiene varios ejemplos de configuraciones y aplicaciones Dock
   docker inspect <nombre_contenedor_o_imagen>
   ```
 
+## Diferencias Principales entre Dockerfile y docker-compose.yml
+
+| Característica               | Dockerfile                           | docker-compose.yml                     |
+|------------------------------|--------------------------------------|----------------------------------------|
+| **Propósito**                | Crear una imagen Docker             | Orquestar y ejecutar múltiples contenedores |
+| **Uso**                      | Construcción de imagen              | Configuración y despliegue de contenedores |
+| **Formato**                  | Instrucciones de Docker (texto plano) | YAML                                  |
+| **Comandos principales**     | `FROM`, `COPY`, `RUN`, `CMD`, etc.  | `services`, `build`, `volumes`, `networks`, `depends_on` |
+| **Escalabilidad**            | Diseñado para una sola imagen       | Diseñado para múltiples contenedores   |
+| **Ejemplo de aplicación**    | Empaquetar una app en una imagen    | Ejecutar una app con base de datos, caché, backend y frontend en contenedores separados |
+
+## Conclusión
+
+- **Dockerfile** es ideal para crear una imagen de una aplicación específica.
+- **docker-compose.yml** es ideal para configurar y orquestar múltiples contenedores que trabajen en conjunto.
+
+Usualmente, ambos archivos se usan en conjunto: el Dockerfile define cómo construir la imagen de la aplicación, mientras que el docker-compose.yml orquesta cómo se ejecutarán esa imagen y otros servicios adicionales en contenedores.
+
 ## Contribuciones
 
 Las contribuciones son bienvenidas. Si tienes alguna mejora o encuentras un problema, siéntete libre de abrir un issue o hacer un pull request.
