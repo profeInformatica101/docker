@@ -25,7 +25,6 @@ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o 
 ### 4. Agregar el repositorio de Docker
 ```bash
 echo "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu focal stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
 ```
 
 ### 5. Instalar Docker
@@ -50,13 +49,13 @@ Después, reinicia tu sesión.
 ### 8. Instalar Docker Compose
 Descarga e instala la última versión de Docker Compose:
 ```bash
-sudo curl -L \"https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)/docker-compose-$(uname -s)-$(uname -m)\" -o /usr/local/bin/docker-compose
+sudo curl -L "https://github.com/docker/compose/releases/download/$(curl -s https://api.github.com/repos/docker/compose/releases/latest | grep tag_name | cut -d '"' -f 4)/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
 ## Comandos Básicos de Docker ⚙️
 
-### 1. Listar Contenedores 📋
+### 1. Listar Contenedores 🗄️
 - Para listar los contenedores activos:
   ```bash
   docker ps
@@ -100,7 +99,7 @@ sudo chmod +x /usr/local/bin/docker-compose
   docker image prune
   ```
 
-### 5. Construir una Imagen 🏗️
+### 5. Construir una Imagen 🏠
 - Construir una imagen a partir de un Dockerfile en el directorio actual:
   ```bash
   docker build -t nombre_imagen .
@@ -164,7 +163,7 @@ sudo chmod +x /usr/local/bin/docker-compose
   docker inspect <nombre_contenedor_o_imagen>
   ```
 
-## Diferencias Principales entre Dockerfile y docker-compose.yml 📄⚙️
+## Diferencias Principales entre Dockerfile y docker-compose.yml 🔝⚙️
 
 | Característica               | Dockerfile                           | docker-compose.yml                     |
 |------------------------------|--------------------------------------|----------------------------------------|
@@ -189,4 +188,5 @@ Las contribuciones son bienvenidas. Si tienes alguna mejora o encuentras un prob
 ## Licencia 📜
 
 Este proyecto está bajo la licencia MIT. Consulta el archivo `LICENSE` para obtener más detalles.
+
 
