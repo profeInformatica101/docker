@@ -4,10 +4,10 @@ services:
     container_name: mariadb
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: SuperRoot123!
+      MARIADB_ROOT_PASSWORD: "SuperRoot123!"
       MARIADB_DATABASE: moodle
       MARIADB_USER: moodle
-      MARIADB_PASSWORD: SuperMdl123!
+      MARIADB_PASSWORD: "SuperMdl123!"
       TZ: Europe/Madrid
       MARIADB_CHARACTER_SET: utf8mb4
       MARIADB_COLLATE: utf8mb4_unicode_ci
@@ -19,6 +19,11 @@ services:
       interval: 10s
       timeout: 5s
       retries: 40
+    # logging (opcional: evita crecer sin límite)
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   moodle:
     image: bitnami/moodle:4.4.2
@@ -28,18 +33,22 @@ services:
       mariadb:
         condition: service_healthy
     environment:
+      # DB
       MOODLE_DATABASE_HOST: mariadb
       MOODLE_DATABASE_PORT_NUMBER: "3306"
       MOODLE_DATABASE_USER: moodle
       MOODLE_DATABASE_NAME: moodle
-      MOODLE_DATABASE_PASSWORD: SuperMdl123!
+      MOODLE_DATABASE_PASSWORD: "SuperMdl123!"
+      # Admin
       MOODLE_USERNAME: admin
-      MOODLE_PASSWORD: AdminFort3!
+      MOODLE_PASSWORD: "AdminFort3!"
       MOODLE_EMAIL: admin@example.com
       MOODLE_SITE_NAME: "Moodle en Español"
       MOODLE_LANGUAGE: es
+      # Locales y TZ dentro del contenedor
       EXTRA_LOCALES: "es_ES.UTF-8 UTF-8,en_US.UTF-8 UTF-8"
       TZ: Europe/Madrid
+      # PHP
       PHP_UPLOAD_MAX_FILESIZE: 1024M
       PHP_POST_MAX_SIZE: 1024M
       PHP_MAX_EXECUTION_TIME: "300"
@@ -48,6 +57,10 @@ services:
     volumes:
       - moodle_app:/bitnami/moodle
       - moodle_data:/bitnami/moodledata
+    logging:
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   mariadb_data:
