@@ -1,8 +1,8 @@
-version: '3.8'  # puedes ajustar la versión si tu sistema lo requiere
+version: '3.8'
 
 services:
   mariadb:
-    image: bitnami/mariadb:11.4.3  # usa versión concreta en vez de latest
+    image: bitnami/mariadb:11.4.3
     container_name: mariadb
     restart: unless-stopped
     environment:
@@ -11,10 +11,8 @@ services:
       MARIADB_DATABASE: moodle
       MARIADB_USER: moodle
       MARIADB_PASSWORD: "SuperMdl123!"
-      # Establecer charset/collate UTF8 para Moodle
       MARIADB_CHARACTER_SET: utf8mb4
       MARIADB_COLLATE: utf8mb4_unicode_ci
-      # Para producción, normalmente NO permitas contraseña vacía
       ALLOW_EMPTY_PASSWORD: "no"
     volumes:
       - mariadb_data:/bitnami/mariadb
@@ -25,7 +23,7 @@ services:
       retries: 10
 
   moodle:
-    image: bitnami/moodle:4.4.2  # también versión fija
+    image: bitnami/moodle:4.4.2
     container_name: moodle
     restart: unless-stopped
     depends_on:
@@ -45,18 +43,15 @@ services:
       MOODLE_EMAIL: admin@example.com
       MOODLE_SITE_NAME: "Moodle en Español"
       MOODLE_LANGUAGE: es
-      # Locales múltiples
+      # Locales (soporte ES en contenedor)
       EXTRA_LOCALES: "es_ES.UTF-8 UTF-8,en_US.UTF-8 UTF-8"
-      # PHP ajustes
+      # PHP
       PHP_UPLOAD_MAX_FILESIZE: 1024M
       PHP_POST_MAX_SIZE: 1024M
       PHP_MAX_EXECUTION_TIME: 300
-      # Si hay soporte opcional para locales completos
-      WITH_ALL_LOCALES: "yes"
     ports:
       - "8080:8080"
-      # opcionalmente HTTPS si quieres
-      # - "8443:8443"
+      # - "8443:8443"  # si activas HTTPS en el contenedor
     volumes:
       - moodle_app:/bitnami/moodle
       - moodle_data:/bitnami/moodledata
