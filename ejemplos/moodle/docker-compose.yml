@@ -1,42 +1,52 @@
-version: '3.7'
+version: "3.7"
 
 services:
   mariadb:
-    image: bitnami/mariadb:11
+    image: bitnami/mariadb:11.4.2
+    container_name: mariadb
+    restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: root_password
-      MARIADB_DATABASE: moodle
-      MARIADB_USER: moodle
-      MARIADB_PASSWORD: moodle_password
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -hmariadb -umoodle -pmoodle_password --silent"]
-      interval: 5s
-      timeout: 3s
-      retries: 30
+      - MARIADB_ROOT_PASSWORD=root_password
+      - MARIADB_DATABASE=moodle
+      - MARIADB_USER=moodle
+      - MARIADB_PASSWORD=moodle_password
+      - MARIADB_CHARACTER_SET=utf8mb4
+      - MARIADB_COLLATE=utf8mb4_unicode_ci
+      - TZ=Europe/Madrid
     volumes:
-      - mariadb_data:/bitnami/mariadb
+      - ./volumes/mariadb_data:/bitnami/mariadb
 
   moodle:
-    image: bitnami/moodle:4
+    image: bitnami/moodle:4.4.2
+    container_name: moodle
+    restart: unless-stopped
+    depends_on:
+      - mariadb
     environment:
-      MOODLE_DATABASE_HOST: mariadb
-      MOODLE_DATABASE_PORT_NUMBER: 3306
-      MOODLE_DATABASE_USER: moodle
-      MOODLE_DATABASE_NAME: moodle
-      MOODLE_DATABASE_PASSWORD: moodle_password
-      MOODLE_USERNAME: admin
-      MOODLE_PASSWORD: admin_password
-      MOODLE_EMAIL: admin@example.com
-      PHP_UPLOAD_MAX_FILESIZE: 1024M
-      PHP_POST_MAX_SIZE: 1024M
+      - MOODLE_DATABASE_HOST=mariadb
+      - MOODLE_DATABASE_PORT_NUMBER=3306
+      - MOODLE_DATABASE_USER=moodle
+      - MOODLE_DATABASE_NAME=moodle
+      - MOODLE_DATABASE_PASSWORD=moodle_password
+      - MOODLE_USERNAME=admin
+      - MOODLE_PASSWORD=admin_password
+      - MOODLE_EMAIL=admin@example.com
+      - MOODLE_SITE_NAME=Moodle en Español
+      - MOODLE_LANGUAGE=es
+      - PHP_UPLOAD_MAX_FILESIZE=1024M
+      - PHP_POST_MAX_SIZE=1024M
+      - PHP_MAX_EXECUTION_TIME=300
+      - TZ=Europe/Madrid
+      - LANG=es_ES.UTF-8
+      - LC_ALL=es_ES.UTF-8
+      - LANGUAGE=es_ES:es
     ports:
       - "8080:8080"
-    depends_on:
-      mariadb:
-        condition: service_healthy
     volumes:
-      - moodle_data:/bitnami/moodle
+      - ./volumes/moodle_data:/bitnami/moodle
 
 volumes:
   moodle_data:
+    driver: local
   mariadb_data:
+    driver: local
