@@ -1,60 +1,59 @@
-version: '3.7'
-
+# docker-compose.yml (sin .env)
 services:
   mariadb:
     image: bitnami/mariadb:latest
+    container_name: mariadb
     restart: unless-stopped
     environment:
-      MARIADB_ROOT_PASSWORD: root_password
+      MARIADB_ROOT_PASSWORD: SuperRoot123!
       MARIADB_DATABASE: moodle
       MARIADB_USER: moodle
-      MARIADB_PASSWORD: moodle_password
+      MARIADB_PASSWORD: SuperMdl123!
       TZ: Europe/Madrid
     volumes:
       - mariadb_data:/bitnami/mariadb
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -hmariadb -umoodle -pmoodle_password --silent"]
+      # Usa root para asegurar que el healthcheck no falla por credenciales vacías
+      test: ["CMD-SHELL", "mysqladmin ping -h127.0.0.1 -uroot -pSuperRoot123! --silent"]
       interval: 10s
       timeout: 5s
       retries: 30
 
   moodle:
     image: bitnami/moodle:latest
+    container_name: moodle
     restart: unless-stopped
     depends_on:
       mariadb:
         condition: service_healthy
     environment:
-      # DB
+      # Base de datos
       MOODLE_DATABASE_HOST: mariadb
-      MOODLE_DATABASE_PORT_NUMBER: 3306
+      MOODLE_DATABASE_PORT_NUMBER: "3306"
       MOODLE_DATABASE_USER: moodle
       MOODLE_DATABASE_NAME: moodle
-      MOODLE_DATABASE_PASSWORD: moodle_password
-      # Admin Moodle
+      MOODLE_DATABASE_PASSWORD: SuperMdl123!
+      # Admin de Moodle
       MOODLE_USERNAME: admin
-      MOODLE_PASSWORD: admin_password
+      MOODLE_PASSWORD: AdminFort3!
       MOODLE_EMAIL: admin@example.com
-      # Español por defecto
       MOODLE_SITE_NAME: "Moodle en Español"
       MOODLE_LANGUAGE: es
-      # Locales y zona horaria dentro del contenedor
+      # Locales y zona horaria en el contenedor
       EXTRA_LOCALES: "es_ES.UTF-8 UTF-8,en_US.UTF-8 UTF-8"
       TZ: Europe/Madrid
-      # PHP (tamaños y tiempo)
+      # PHP
       PHP_UPLOAD_MAX_FILESIZE: 1024M
       PHP_POST_MAX_SIZE: 1024M
-      PHP_MAX_EXECUTION_TIME: 300
+      PHP_MAX_EXECUTION_TIME: "300"
     ports:
       - "8080:8080"
     volumes:
+      # Separar app y moodledata evita pisar otros directorios de /bitnami
       - moodle_app:/bitnami/moodle
       - moodle_data:/bitnami/moodledata
 
 volumes:
   mariadb_data:
-    driver: local
   moodle_app:
-    driver: local
   moodle_data:
-    driver: local
