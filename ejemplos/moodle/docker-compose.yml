@@ -1,3 +1,5 @@
+version: "2.4"
+
 services:
   mariadb:
     image: bitnami/mariadb:11.4.3
@@ -19,7 +21,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 40
-    # logging (opcional: evita crecer sin límite)
     logging:
       options:
         max-size: "10m"
@@ -52,11 +53,19 @@ services:
       PHP_UPLOAD_MAX_FILESIZE: 1024M
       PHP_POST_MAX_SIZE: 1024M
       PHP_MAX_EXECUTION_TIME: "300"
+      # Opcional: más detalle en logs de arranque
+      # BITNAMI_DEBUG: "true"
     ports:
       - "8080:8080"
     volumes:
       - moodle_app:/bitnami/moodle
       - moodle_data:/bitnami/moodledata
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/ || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 20
+      start_period: 40s
     logging:
       options:
         max-size: "10m"
