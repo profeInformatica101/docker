@@ -27,7 +27,7 @@ services:
         max-file: "3"
 
   moodle:
-    image: bitnami/moodle:4.4.2
+    image: bitnami/moodle:4.4
     container_name: moodle
     restart: unless-stopped
     depends_on:
