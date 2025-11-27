@@ -23,7 +23,7 @@ services:
       DB_PASS: moodle
 
       MOODLE_USERNAME: admin
-      MOODLE_PASSWORD: "AdminFort3!"
+      MOODLE_PASSWORD: "admin"
       MOODLE_EMAIL: admin@example.com
       MOODLE_SITENAME: "LaboratorioMoodle"
       MOODLE_LANGUAGE: es
