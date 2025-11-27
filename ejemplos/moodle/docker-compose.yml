@@ -25,7 +25,7 @@ services:
       MOODLE_USERNAME: admin
       MOODLE_PASSWORD: "AdminFort3!"
       MOODLE_EMAIL: admin@example.com
-      MOODLE_SITENAME: "Moodle en Docker"
+      MOODLE_SITENAME: "LaboratorioMoodle"
       MOODLE_LANGUAGE: es
       SITE_URL: http://localhost:8080
 
