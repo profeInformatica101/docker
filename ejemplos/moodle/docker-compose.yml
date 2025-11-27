@@ -29,10 +29,10 @@ services:
       MOODLE_EMAIL: admin@example.com
       MOODLE_SITENAME: "Moodle en Docker"
       MOODLE_LANGUAGE: es
-      SITE_URL: http://localhost:9192
+      SITE_URL: http://localhost:8080
 
     ports:
-      - "9192:8080"
+      - "8080:8080"
 
     volumes:
       - moodledata:/var/www/moodledata
