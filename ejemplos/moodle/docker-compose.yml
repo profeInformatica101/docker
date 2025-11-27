@@ -5,9 +5,9 @@ services:
     image: postgres:alpine
     restart: unless-stopped
     environment:
-      - POSTGRES_PASSWORD=moodle
-      - POSTGRES_USER=moodle
-      - POSTGRES_DB=moodle
+      POSTGRES_PASSWORD: moodle
+      POSTGRES_USER: moodle
+      POSTGRES_DB: moodle
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
@@ -30,8 +30,10 @@ services:
       MOODLE_SITENAME: "Moodle en Docker"
       MOODLE_LANGUAGE: es
       SITE_URL: http://localhost:9192
+
     ports:
-      - "9192::8080"
+      - "9192:8080"
+
     volumes:
       - moodledata:/var/www/moodledata
       - moodlehtml:/var/www/html
